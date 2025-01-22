@@ -197,14 +197,12 @@ project-root/
 
 Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss the proposed changes.
 
----
-
-
 
 ---
 
 ## Author
 
 - Mohamed Musse Omar Galde
+
 
 ---
