@@ -207,6 +207,7 @@ This project is licensed under the MIT License.
 
 ## Authors
 
-- Mohamed Musse Omar Galde
+- Your Name (Project Owner)
+- Contributors
 
 ---
