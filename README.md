@@ -199,15 +199,8 @@ Feel free to fork the repository and submit pull requests. For major changes, pl
 
 ---
 
-## License
+## Author
 
-This project is licensed under the MIT License.
-
----
-
-## Authors
-
-- Your Name (Project Owner)
-- Contributors
+- Mohamed Musse Omar Galde
 
 ---
