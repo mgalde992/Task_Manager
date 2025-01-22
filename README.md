@@ -1,114 +1,152 @@
-# Task Management App
+# Task Manager Web Application
 
-A simple task management application built with Vue.js for the frontend and laravel with Express for the backend. This application allows users to create, read, update, and delete tasks, and it synchronizes with a local MySQL database and an external API.
+## Overview
+This project is a web application for managing tasks. It allows users to create and retrieve tasks while synchronizing with an external API (MockAPI.io). The system consists of a Laravel-based backend and a Vue.js frontend.
 
 ## Features
+- *Backend (Laravel)*:
+  - POST /api/tasks: Creates a task, stores it in the database, and syncs it with the external API.
+  - GET /api/tasks: Retrieves all local tasks and merges them with tasks from the external API.
+  
+- *Frontend (Vue.js)*:
+  - A form for adding new tasks.
+  - A table for displaying combined task lists.
 
-- Add new tasks
-- View all tasks
-- Mark tasks as completed
-- Delete tasks
-- Synchronization with an external API
+- *Database*:
+  - Stores tasks with fields: id, external_id, title, completed, created_at, updated_at.
+
+---
+
+## Setup Instructions
+
+### *Backend (Laravel)*
+
+#### 1. Clone the repository
+sh
+ git clone <your-repo-url>
+ cd task-manager-backend
+
+
+#### 2. Install dependencies
+sh
+ composer install
+
+
+#### 3. Set up environment variables
+sh
+ cp .env.example .env
+
+Modify .env with your database credentials:
+env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task_manager
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+#### 4. Generate application key
+sh
+ php artisan key:generate
+
+
+#### 5. Run migrations
+sh
+ php artisan migrate
+
+
+#### 6. Start the server
+sh
+ php artisan serve
+
+
+The backend will be available at http://127.0.0.1:8000
+
+---
+
+### *Frontend (Vue.js)*
+
+#### 1. Clone the repository
+sh
+ git clone <your-repo-url>
+ cd task-manager-frontend
+
+
+#### 2. Install dependencies
+sh
+ npm install
+
+
+#### 3. Start the development server
+sh
+ npm run dev
+
+
+The frontend will be available at http://127.0.0.1:5173
+
+---
+
+## API Documentation
+
+### *POST /api/tasks*
+*Request Body:*
+json
+{
+    "title": "New Task",
+    "completed": false
+}
+
+*Response:*
+json
+{
+    "id": 1,
+    "external_id": "abcd1234",
+    "title": "New Task",
+    "completed": false,
+    "created_at": "2025-01-22T12:00:00Z",
+    "updated_at": "2025-01-22T12:00:00Z"
+}
+
+
+### *GET /api/tasks*
+*Response:*
+json
+{
+    "local_tasks": [
+        { "id": 1, "title": "Task A", "completed": false, "external_id": null }
+    ],
+    "external_tasks": [
+        { "id": "abcd1234", "title": "Task B", "completed": true }
+    ]
+}
+
+
+---
 
 ## Technologies Used
+- *Backend:* Laravel, MySQL
+- *Frontend:* Vue.js, Axios
+- *External API:* MockAPI.io
+- *Version Control:* GitHub/Bitbucket
 
-- **Frontend**: Vue.js, Axios
-- **Backend**: Laravel
-- **Database**: MySQL
-- **External API**: [MockAPI](https://67911187af8442fd7378e736.mockapi.io/tasks)
+---
 
-## Installation
+## Error Handling
+- *Validation Errors:* Returns 422 for invalid requests.
+- *API Failures:* Graceful degradation when MockAPI.io is unreachable.
+- *Database Errors:* Uses Laravel's built-in exception handling.
 
-### Prerequisites
+---
 
-- Node.js (v12 or later)
-- MySQL (or another compatible database)
-- npm (comes with Node.js)
-- Laravel
+## Contributing
+1. Fork the repository
+2. Create a new branch (feature-xyz)
+3. Commit your changes
+4. Push to your fork
+5. Open a Pull Request
 
-### Setting Up the Backend
+---
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/mgalde992/task-management-app.git
-   cd task-management-app/my-backend
-Install the dependencies:
-bash
-
-Copy
-npm install
-Create a MySQL database and table:
-sql
-
-Copy
-CREATE DATABASE task_management;
-
-USE task_management;
-
-CREATE TABLE tasks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    completed BOOLEAN NOT NULL DEFAULT false
-);
-Update the server.js file with your MySQL credentials:
-javascript
-
-Copy
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_username', // Replace with your MySQL username
-  password: 'your_password', // Replace with your MySQL password
-  database: 'task_management', // Your database name
-});
-Start the backend server:
-bash
-
-Copy
-node server.js
-Setting Up the Frontend
-Navigate to the frontend directory:
-bash
-
-Copy
-cd ../my-frontend
-Install the dependencies:
-bash
-
-Copy
-npm install
-Start the Vue.js application:
-bash
-
-Copy
-npm run serve
-Open your browser and go to http://localhost:8080 to see the application in action.
-Usage
-Use the form to add new tasks.
-View all tasks in the list.
-Click "Delete" to remove a task.
-Mark tasks as completed using the dropdown.
-Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-Vue.js
-Node.js
-Express
-MySQL
-MockAPI
-sql_more
-
-Copy
-
-### Instructions to Update the README
-
-1. **Replace `YOUR_USERNAME`**: Update the repository link with your actual GitHub username.
-2. **Customize Content**: Modify any sections to better fit your project details, such as features or installation steps.
-
-### Conclusion
-
-This `README.md` provides a clear overview of your project, installation instructions, and usage guidelines. It’s a great way to help users understand and contribute to your application. If you need further modifications or additional sections, just let me know!
+## License
+This project is open-source and available under the MIT License.
