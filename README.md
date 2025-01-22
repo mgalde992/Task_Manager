@@ -13,7 +13,7 @@ A simple task management application built with Vue.js for the frontend and Node
 ## Technologies Used
 
 - **Frontend**: Vue.js, Axios
-- **Backend**: Node.js, Express
+- **Backend**: Laravel
 - **Database**: MySQL
 - **External API**: [MockAPI](https://67911187af8442fd7378e736.mockapi.io/tasks)
 
@@ -24,13 +24,14 @@ A simple task management application built with Vue.js for the frontend and Node
 - Node.js (v12 or later)
 - MySQL (or another compatible database)
 - npm (comes with Node.js)
+- Laravel
 
 ### Setting Up the Backend
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/task-management-app.git
+   git clone https://github.com/mgalde992/task-management-app.git
    cd task-management-app/my-backend
 Install the dependencies:
 bash
