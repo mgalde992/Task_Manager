@@ -155,7 +155,7 @@ This project is a simple web application for managing tasks. It interacts with a
 ## Folder Structure
 
 ### Backend
-
+---
 project-root/
 ├── app/
 ├── database/
@@ -165,10 +165,10 @@ project-root/
 │   └── api.php
 ├── .env
 └── composer.json
-
+---
 
 ### Frontend
-
+---
 project-root/
 ├── src/
 │   ├── components/
@@ -199,15 +199,12 @@ Feel free to fork the repository and submit pull requests. For major changes, pl
 
 ---
 
-## License
 
-This project is licensed under the MIT License.
 
 ---
 
-## Authors
+## Author
 
-- Your Name (Project Owner)
-- Contributors
+- Mohamed Musse Omar Galde
 
 ---
