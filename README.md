@@ -127,6 +127,7 @@ This project is a simple web application for managing tasks. It interacts with a
   
 
 ### GET /api/tasks
+```
 - *Response*:
   json
   {
@@ -148,14 +149,14 @@ This project is a simple web application for managing tasks. It interacts with a
       }
     ]
   }
-  
+  ```
 
 ---
 
 ## Folder Structure
 
 ### Backend
----
+```
 project-root/
 ├── app/
 ├── database/
@@ -165,10 +166,10 @@ project-root/
 │   └── api.php
 ├── .env
 └── composer.json
----
+```
 
 ### Frontend
----
+```
 project-root/
 ├── src/
 │   ├── components/
@@ -179,8 +180,8 @@ project-root/
 ├── package.json
 └── vite.config.js
 
+```
 
----
 
 ## Error Handling
 
@@ -196,9 +197,6 @@ project-root/
 ## Contributions
 
 Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss the proposed changes.
-
----
-
 
 
 ---
