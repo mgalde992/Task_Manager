@@ -1,113 +1,208 @@
-# Task Management App
+# Task Manager Application
 
-A simple task management application built with Vue.js for the frontend and Node.js with Express for the backend. This application allows users to create, read, update, and delete tasks, and it synchronizes with a local MySQL database and an external API.
+This project is a simple web application for managing tasks. It interacts with a mock external API and provides functionality for creating tasks and retrieving a combined list of local and external tasks.
+
+---
 
 ## Features
 
-- Add new tasks
-- View all tasks
-- Mark tasks as completed
-- Delete tasks
-- Synchronization with an external API
+### Backend (Laravel)
+1. *POST /api/tasks*:
+   - Accepts task details (title, completed) from the request.
+   - Stores the task in a local database (MySQL).
+   - Posts the task to an external API and stores the external task ID in the local database.
+   - Returns the task details (local + external IDs) as a JSON response.
 
-## Technologies Used
+2. *GET /api/tasks*:
+   - Retrieves all tasks stored in the local database.
+   - Fetches additional tasks from the external API and combines them with the local tasks.
+   - Returns the combined list as a JSON response.
 
-- **Frontend**: Vue.js, Axios
-- **Backend**: Node.js, Express
-- **Database**: MySQL
-- **External API**: [MockAPI](https://67911187af8442fd7378e736.mockapi.io/tasks)
+### Frontend (Vue.js)
+1. *Task Creation Form*:
+   - Input fields for task title and completed status.
+   - Sends data to /api/tasks via a POST request.
+
+2. *Task Display Table*:
+   - Fetches the combined list of tasks from /api/tasks via a GET request.
+   - Displays task details (title, completed, source, and ID).
+
+---
+
+## Requirements
+
+### Backend
+- PHP 8.x
+- Composer
+- Laravel Framework
+- MySQL Database
+
+### Frontend
+- Node.js (v14 or above)
+- npm or yarn
+- Vue.js Framework
+
+---
 
 ## Installation
 
-### Prerequisites
+### Backend Setup
+1. Clone the backend repository:
+   bash
+   git clone <backend-repo-url>
+   cd task-manager-backend
+   
+2. Install dependencies:
+   bash
+   composer install
+   
+3. Configure environment:
+   bash
+   cp .env.example .env
+   php artisan key:generate
+   
+4. Update .env file:
+   env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=task_manager
+   DB_USERNAME=root
+   DB_PASSWORD=
+   
+5. Run migrations:
+   bash
+   php artisan migrate
+   
+6. Start the server:
+   bash
+   php artisan serve
+   
 
-- Node.js (v12 or later)
-- MySQL (or another compatible database)
-- npm (comes with Node.js)
+### Frontend Setup
+1. Clone the frontend repository:
+   bash
+   git clone <frontend-repo-url>
+   cd task-manager-frontend
+   
+2. Install dependencies:
+   bash
+   npm install
+   
+3. Start the development server:
+   bash
+   npm run dev
+   
 
-### Setting Up the Backend
+---
 
-1. Clone the repository:
+## Usage
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/task-management-app.git
-   cd task-management-app/my-backend
-Install the dependencies:
-bash
+1. Access the frontend application in your browser at the provided development server URL (e.g., http://localhost:3000).
+2. Use the form to create new tasks. The tasks will be stored locally and synced with the external API.
+3. View the combined list of tasks (local and external) in the task table.
 
-Copy
-npm install
-Create a MySQL database and table:
-sql
+---
 
-Copy
-CREATE DATABASE task_management;
+## API Endpoints
 
-USE task_management;
+### POST /api/tasks
+- *Request Body*:
+  json
+  {
+    "title": "Sample Task",
+    "completed": false
+  }
+  
+- *Response*:
+  json
+  {
+    "id": 1,
+    "title": "Sample Task",
+    "completed": false,
+    "external_id": "12345",
+    "created_at": "2025-01-22T10:00:00.000Z",
+    "updated_at": "2025-01-22T10:00:00.000Z"
+  }
+  
 
-CREATE TABLE tasks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    completed BOOLEAN NOT NULL DEFAULT false
-);
-Update the server.js file with your MySQL credentials:
-javascript
+### GET /api/tasks
+```
+- *Response*:
+  json
+  {
+    "local_tasks": [
+      {
+        "id": 1,
+        "title": "Sample Task",
+        "completed": false,
+        "external_id": "12345",
+        "created_at": "2025-01-22T10:00:00.000Z",
+        "updated_at": "2025-01-22T10:00:00.000Z"
+      }
+    ],
+    "external_tasks": [
+      {
+        "id": "67890",
+        "title": "External Task",
+        "completed": true
+      }
+    ]
+  }
+  ```
 
-Copy
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_username', // Replace with your MySQL username
-  password: 'your_password', // Replace with your MySQL password
-  database: 'task_management', // Your database name
-});
-Start the backend server:
-bash
+---
 
-Copy
-node server.js
-Setting Up the Frontend
-Navigate to the frontend directory:
-bash
+## Folder Structure
 
-Copy
-cd ../my-frontend
-Install the dependencies:
-bash
+### Backend
+```
+project-root/
+├── app/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── routes/
+│   └── api.php
+├── .env
+└── composer.json
+```
 
-Copy
-npm install
-Start the Vue.js application:
-bash
+### Frontend
+```
+project-root/
+├── src/
+│   ├── components/
+│   │   ├── TaskForm.vue
+│   │   └── TaskList.vue
+│   └── App.vue
+├── public/
+├── package.json
+└── vite.config.js
 
-Copy
-npm run serve
-Open your browser and go to http://localhost:8080 to see the application in action.
-Usage
-Use the form to add new tasks.
-View all tasks in the list.
-Click "Delete" to remove a task.
-Mark tasks as completed using the dropdown.
-Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
+```
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
-Acknowledgments
-Vue.js
-Node.js
-Express
-MySQL
-MockAPI
-sql_more
+## Error Handling
 
-Copy
+- Backend:
+  - Validation errors return a 422 status with error details.
+  - Network/API errors return a 500 status with an appropriate message.
 
-### Instructions to Update the README
+- Frontend:
+  - Errors during task creation or fetching display a console error message (can be improved with user-friendly alerts).
 
-1. **Replace `YOUR_USERNAME`**: Update the repository link with your actual GitHub username.
-2. **Customize Content**: Modify any sections to better fit your project details, such as features or installation steps.
+---
 
-### Conclusion
+## Contributions
 
-This `README.md` provides a clear overview of your project, installation instructions, and usage guidelines. It’s a great way to help users understand and contribute to your application. If you need further modifications or additional sections, just let me know!
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss the proposed changes.
+
+
+---
+
+## Author
+
+- Mohamed Musse Omar Galde
+
+---
