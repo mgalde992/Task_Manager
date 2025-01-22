@@ -1,6 +1,6 @@
 # Task Management App
 
-A simple task management application built with Vue.js for the frontend and Node.js with Express for the backend. This application allows users to create, read, update, and delete tasks, and it synchronizes with a local MySQL database and an external API.
+A simple task management application built with Vue.js for the frontend and laravel with Express for the backend. This application allows users to create, read, update, and delete tasks, and it synchronizes with a local MySQL database and an external API.
 
 ## Features
 
