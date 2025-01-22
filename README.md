@@ -1,152 +1,211 @@
-# Task Manager Web Application
+# Task Manager Application
 
-## Overview
-This project is a web application for managing tasks. It allows users to create and retrieve tasks while synchronizing with an external API (MockAPI.io). The system consists of a Laravel-based backend and a Vue.js frontend.
+This project is a simple web application for managing tasks. It interacts with a mock external API and provides functionality for creating tasks and retrieving a combined list of local and external tasks.
+
+---
 
 ## Features
-- *Backend (Laravel)*:
-  - POST /api/tasks: Creates a task, stores it in the database, and syncs it with the external API.
-  - GET /api/tasks: Retrieves all local tasks and merges them with tasks from the external API.
-  
-- *Frontend (Vue.js)*:
-  - A form for adding new tasks.
-  - A table for displaying combined task lists.
 
-- *Database*:
-  - Stores tasks with fields: id, external_id, title, completed, created_at, updated_at.
+### Backend (Laravel)
+1. *POST /api/tasks*:
+   - Accepts task details (title, completed) from the request.
+   - Stores the task in a local database (MySQL).
+   - Posts the task to an external API and stores the external task ID in the local database.
+   - Returns the task details (local + external IDs) as a JSON response.
 
----
+2. *GET /api/tasks*:
+   - Retrieves all tasks stored in the local database.
+   - Fetches additional tasks from the external API and combines them with the local tasks.
+   - Returns the combined list as a JSON response.
 
-## Setup Instructions
+### Frontend (Vue.js)
+1. *Task Creation Form*:
+   - Input fields for task title and completed status.
+   - Sends data to /api/tasks via a POST request.
 
-### *Backend (Laravel)*
-
-#### 1. Clone the repository
-sh
- git clone <your-repo-url>
- cd task-manager-backend
-
-
-#### 2. Install dependencies
-sh
- composer install
-
-
-#### 3. Set up environment variables
-sh
- cp .env.example .env
-
-Modify .env with your database credentials:
-env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=task_manager
-DB_USERNAME=root
-DB_PASSWORD=
-
-
-#### 4. Generate application key
-sh
- php artisan key:generate
-
-
-#### 5. Run migrations
-sh
- php artisan migrate
-
-
-#### 6. Start the server
-sh
- php artisan serve
-
-
-The backend will be available at http://127.0.0.1:8000
+2. *Task Display Table*:
+   - Fetches the combined list of tasks from /api/tasks via a GET request.
+   - Displays task details (title, completed, source, and ID).
 
 ---
 
-### *Frontend (Vue.js)*
+## Requirements
 
-#### 1. Clone the repository
-sh
- git clone <your-repo-url>
- cd task-manager-frontend
+### Backend
+- PHP 8.x
+- Composer
+- Laravel Framework
+- MySQL Database
 
-
-#### 2. Install dependencies
-sh
- npm install
-
-
-#### 3. Start the development server
-sh
- npm run dev
-
-
-The frontend will be available at http://127.0.0.1:5173
+### Frontend
+- Node.js (v14 or above)
+- npm or yarn
+- Vue.js Framework
 
 ---
 
-## API Documentation
+## Installation
 
-### *POST /api/tasks*
-*Request Body:*
-json
-{
-    "title": "New Task",
+### Backend Setup
+1. Clone the backend repository:
+   bash
+   git clone <backend-repo-url>
+   cd task-manager-backend
+   
+2. Install dependencies:
+   bash
+   composer install
+   
+3. Configure environment:
+   bash
+   cp .env.example .env
+   php artisan key:generate
+   
+4. Update .env file:
+   env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=task_manager
+   DB_USERNAME=root
+   DB_PASSWORD=
+   
+5. Run migrations:
+   bash
+   php artisan migrate
+   
+6. Start the server:
+   bash
+   php artisan serve
+   
+
+### Frontend Setup
+1. Clone the frontend repository:
+   bash
+   git clone <frontend-repo-url>
+   cd task-manager-frontend
+   
+2. Install dependencies:
+   bash
+   npm install
+   
+3. Start the development server:
+   bash
+   npm run dev
+   
+
+---
+
+## Usage
+
+1. Access the frontend application in your browser at the provided development server URL (e.g., http://localhost:3000).
+2. Use the form to create new tasks. The tasks will be stored locally and synced with the external API.
+3. View the combined list of tasks (local and external) in the task table.
+
+---
+
+## API Endpoints
+
+### POST /api/tasks
+- *Request Body*:
+  json
+  {
+    "title": "Sample Task",
     "completed": false
-}
-
-*Response:*
-json
-{
+  }
+  
+- *Response*:
+  json
+  {
     "id": 1,
-    "external_id": "abcd1234",
-    "title": "New Task",
+    "title": "Sample Task",
     "completed": false,
-    "created_at": "2025-01-22T12:00:00Z",
-    "updated_at": "2025-01-22T12:00:00Z"
-}
+    "external_id": "12345",
+    "created_at": "2025-01-22T10:00:00.000Z",
+    "updated_at": "2025-01-22T10:00:00.000Z"
+  }
+  
 
-
-### *GET /api/tasks*
-*Response:*
-json
-{
+### GET /api/tasks
+- *Response*:
+  json
+  {
     "local_tasks": [
-        { "id": 1, "title": "Task A", "completed": false, "external_id": null }
+      {
+        "id": 1,
+        "title": "Sample Task",
+        "completed": false,
+        "external_id": "12345",
+        "created_at": "2025-01-22T10:00:00.000Z",
+        "updated_at": "2025-01-22T10:00:00.000Z"
+      }
     ],
     "external_tasks": [
-        { "id": "abcd1234", "title": "Task B", "completed": true }
+      {
+        "id": "67890",
+        "title": "External Task",
+        "completed": true
+      }
     ]
-}
-
+  }
+  
 
 ---
 
-## Technologies Used
-- *Backend:* Laravel, MySQL
-- *Frontend:* Vue.js, Axios
-- *External API:* MockAPI.io
-- *Version Control:* GitHub/Bitbucket
+## Folder Structure
+
+### Backend
+
+project-root/
+├── app/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── routes/
+│   └── api.php
+├── .env
+└── composer.json
+
+
+### Frontend
+
+project-root/
+├── src/
+│   ├── components/
+│   │   ├── TaskForm.vue
+│   │   └── TaskList.vue
+│   └── App.vue
+├── public/
+├── package.json
+└── vite.config.js
+
 
 ---
 
 ## Error Handling
-- *Validation Errors:* Returns 422 for invalid requests.
-- *API Failures:* Graceful degradation when MockAPI.io is unreachable.
-- *Database Errors:* Uses Laravel's built-in exception handling.
+
+- Backend:
+  - Validation errors return a 422 status with error details.
+  - Network/API errors return a 500 status with an appropriate message.
+
+- Frontend:
+  - Errors during task creation or fetching display a console error message (can be improved with user-friendly alerts).
 
 ---
 
-## Contributing
-1. Fork the repository
-2. Create a new branch (feature-xyz)
-3. Commit your changes
-4. Push to your fork
-5. Open a Pull Request
+## Contributions
+
+Feel free to fork the repository and submit pull requests. For major changes, please open an issue first to discuss the proposed changes.
 
 ---
 
-## License
-This project is open-source and available under the MIT License.
+
+
+---
+
+## Authors
+
+- Mohamed Musse Omar Galde
+- Contributors
+
+---
